@@ -1,28 +1,97 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 public class RocketLauncher : MonoBehaviour
 {
-    [SerializeField] private Transform _rocket;
+    [SerializeField] private Transform _launchPoint;
     [SerializeField] private Transform _target;
 
-    private GameObject _target2;
+    [SerializeField] private GameObject _rocket;
 
-    private Vector3 _pointForBomb;
+    private List<GameObject> _rocketArr;
+
+    public float angleInDegrees;
+
+    private float g = Physics.gravity.y;
+
+    private float rotationSpeed = 2f;
 
     private void Start()
     {
-        _target2 = new GameObject();
-        _target2.transform.position = new Vector3(_target.position.x / 2, _target.position.y, _target.position.z);
+        _rocketArr = new List<GameObject>();
     }
 
     private void Update()
     {
-        _rocket.RotateAround(_target2.transform.position, Vector3.forward, 20 * Time.deltaTime * 2f);
+        launchRotation();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
     }
+
+    private void FixedUpdate()
+    {
+        RocketRotation();
+    }
+
+    private void launchRotation()
+    {
+        Vector3 fromTo = _target.position - transform.position;
+        Vector3 fromToXZ = new Vector3(fromTo.x, 0f, fromTo.z);
+
+        _launchPoint.localEulerAngles = new Vector3(angleInDegrees, 0f, 0f);
+        transform.rotation = Quaternion.LookRotation(fromToXZ, Vector3.up);
+    }
+
+    private void Shoot()
+    {
+        Vector3 fromTo = _target.position - transform.position;
+        Vector3 fromToXZ = new Vector3(fromTo.x, 0f, fromTo.z);
+
+        transform.rotation = Quaternion.LookRotation(fromToXZ, Vector3.up);
+        
+        float x = fromToXZ.magnitude;
+        float y = fromToXZ.y;
+
+        float anglesInRadians = angleInDegrees * Mathf.PI / 180;
+
+        float v2 = (g * x * x) / (2 * (y - Mathf.Tan(anglesInRadians) * x) * Mathf.Pow(Mathf.Cos(anglesInRadians), 2));
+        float v = Mathf.Sqrt(Mathf.Abs(v2));
+
+        GameObject newRocket = Instantiate(_rocket, _launchPoint.position, _launchPoint.rotation);
+        newRocket.GetComponent<Rigidbody>().velocity = _launchPoint.up * v;
+        _rocketArr.Add(newRocket);
+    }
+
+    private void RocketRotation()
+    {
+        if (_rocketArr == null) return;
+
+        for (int i = 0; i < _rocketArr.Count; i++)
+        {
+            if (_rocketArr[i] == null)
+            {
+                _rocketArr.Remove(_rocketArr[i]);
+                return;
+            }
+            
+            var distanceLaunchTarget = _target.position - transform.position;
+            var distanceRocketTargetLeft = _target.position - _rocketArr[i].transform.position;
+
+            _rocketArr[i].transform.LookAt(_target);
+
+            if (distanceRocketTargetLeft.magnitude <= distanceLaunchTarget.magnitude * 0.85f)
+            {
+                _rocketArr[i].transform.localEulerAngles = new Vector3(0f, 0f, 150);
+            }
+        }
+    }
+    
+    
 }
 
