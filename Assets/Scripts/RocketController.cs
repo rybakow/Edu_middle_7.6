@@ -1,22 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class RocketController : MonoBehaviour
 {
-
     private float _currentTime;
 
     [SerializeField] private ParticleSystem _startFire;
     [SerializeField] private ParticleSystem _startFog;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private ParticleSystem _destroyPartical;
 
-    // Update is called once per frame
+
     void Update()
     {
         _currentTime += Time.deltaTime;
@@ -26,13 +20,18 @@ public class RocketController : MonoBehaviour
             _startFire.Stop();
             _startFog.Stop();
         }
-        
-        if (_currentTime > 10f)
-            FinishExploison();
-
     }
 
-    private void FinishExploison()
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Damageable") && _currentTime > 0.5f)
+        {
+            Instantiate(_destroyPartical, this.transform.position, Quaternion.identity);
+            DestroyRocket();
+        }
+    }
+    
+    private void DestroyRocket()
     {
         Destroy(this.gameObject);
     }

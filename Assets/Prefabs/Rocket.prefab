@@ -5413,7 +5413,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 50
+    maxNumParticles: 100
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -9635,10 +9635,9 @@ GameObject:
   - component: {fileID: 4647873426913279185}
   - component: {fileID: 4647873426913279186}
   - component: {fileID: 4647873426913279187}
-  - component: {fileID: 4647873426913279184}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Rocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9708,20 +9707,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4647873426913279184
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4647873426913279190}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &4647873427640257119
 GameObject:
   m_ObjectHideFlags: 0
@@ -9733,10 +9718,9 @@ GameObject:
   - component: {fileID: 4647873427640257118}
   - component: {fileID: 4647873427640257115}
   - component: {fileID: 4647873427640257112}
-  - component: {fileID: 4647873427640257113}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Rocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9806,19 +9790,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &4647873427640257113
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4647873427640257119}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8759811258443931363
 GameObject:
   m_ObjectHideFlags: 0
@@ -9830,9 +9801,10 @@ GameObject:
   - component: {fileID: 1476320782660706422}
   - component: {fileID: 7374651199728241975}
   - component: {fileID: 8823716586484656744}
+  - component: {fileID: 2085223024459257051}
   m_Layer: 0
-  m_Name: Rocket 1
-  m_TagString: Untagged
+  m_Name: Rocket
+  m_TagString: Rocket
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9886,3 +9858,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startFire: {fileID: 2485055860871172518}
   _startFog: {fileID: 4545758292269802919}
+  _destroyPartical: {fileID: 8057082717366974444, guid: fbb13899c53d4b340bc31b62a59f1050, type: 3}
+--- !u!136 &2085223024459257051
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8759811258443931363}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.51969147
+  m_Height: 4.668752
+  m_Direction: 1
+  m_Center: {x: -0.019691467, y: -2.0801098, z: 0}
