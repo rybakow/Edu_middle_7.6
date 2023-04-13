@@ -4,7 +4,9 @@ using Vector3 = UnityEngine.Vector3;
 
 public class RocketLauncher : MonoBehaviour
 {
-    [SerializeField] private Transform _launchPoint;
+    private Transform _launchPoint;
+    [SerializeField] private List<Transform> _launchPoints;
+
     [SerializeField] private Transform _target;
 
     [SerializeField] private GameObject _rocket;
@@ -20,6 +22,7 @@ public class RocketLauncher : MonoBehaviour
     private void Start()
     {
         _rocketArr = new List<GameObject>();
+        ChangeActualLaunchPoint();
     }
 
     private void Update()
@@ -44,14 +47,13 @@ public class RocketLauncher : MonoBehaviour
 
         _launchPoint.localEulerAngles = new Vector3(angleInDegrees, 0f, 0f);
         transform.rotation = Quaternion.LookRotation(fromToXZ, Vector3.up);
+        
     }
 
     private void Shoot()
     {
         Vector3 fromTo = _target.position - transform.position;
         Vector3 fromToXZ = new Vector3(fromTo.x, 0f, fromTo.z);
-
-        transform.rotation = Quaternion.LookRotation(fromToXZ, Vector3.up);
         
         float x = fromToXZ.magnitude;
         float y = fromToXZ.y;
@@ -64,6 +66,8 @@ public class RocketLauncher : MonoBehaviour
         GameObject newRocket = Instantiate(_rocket, _launchPoint.position, _launchPoint.rotation);
         newRocket.GetComponent<Rigidbody>().velocity = _launchPoint.up * v;
         _rocketArr.Add(newRocket);
+
+        ChangeActualLaunchPoint();
     }
 
     private void RocketRotation()
@@ -88,6 +92,12 @@ public class RocketLauncher : MonoBehaviour
                 _rocketArr[i].transform.localEulerAngles = new Vector3(0f, 0f, 150);
             }
         }
+    }
+
+    private void ChangeActualLaunchPoint()
+    {
+        var random = Random.Range(0, _launchPoints.Count);
+        _launchPoint = _launchPoints[random];
     }
     
     
