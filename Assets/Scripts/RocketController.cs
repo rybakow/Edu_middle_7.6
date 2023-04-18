@@ -24,7 +24,7 @@ public class RocketController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Damageable") && _currentTime > 0.5f)
+        if ((collision.gameObject.CompareTag("Damageable") || collision.gameObject.CompareTag("Ground")) && _currentTime > 0.5f)
         {
             Instantiate(_destroyPartical, this.transform.position, Quaternion.identity);
             DestroyRocket();

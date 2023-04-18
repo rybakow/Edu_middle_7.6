@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Rocket
   - Damageable
+  - Ground
   layers:
   - Default
   - TransparentFX
